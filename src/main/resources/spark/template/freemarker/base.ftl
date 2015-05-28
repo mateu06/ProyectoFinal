@@ -1,8 +1,8 @@
 <#macro page_head>
   <title>Librería Marta</title>
-    <#--
+  
     <link href="http://maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.css" rel="stylesheet" media="screen">
-    -->
+  
   <link rel="stylesheet" href="/css/styles.css">
   </#macro>
 

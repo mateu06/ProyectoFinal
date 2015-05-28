@@ -1,20 +1,33 @@
 body
 {
-	background-color: white;
-	/*background-image: url('fondo5.jpg');*/
-	/*background-repeat: no-repeat;*/
-	/*background-size: 100%;*/
+	background-image: url('/img/pluma.jpg') ; 
+	background-repeat: no-repeat;
+	background-size:  100%;
 }
 
 #header
 {
-	background-color: green;
+	background-color: #769157;
 	color: white;
 	max-width: 80%;
 	margin: 0 auto;
 	text-align: center;
 	
 }
+
+form
+{
+	max-width: 50%;
+	margin-left: 10%;
+}
+
+
+input
+{
+	margin: 1%;
+}
+
+
 
 
 
@@ -33,6 +46,16 @@ th
 	/*background-color: red; --- cambia el color de la letra*/
 }
 
+
+tr:hover td
+{
+	background-color: #D5E8CE !important;
+}
+
+a:hover
+{
+	background-color: #D5E8CE !important;
+}
 
 .navbar .navbar-inner {
 			padding: 0;
