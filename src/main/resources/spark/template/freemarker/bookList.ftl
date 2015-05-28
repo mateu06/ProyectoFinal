@@ -24,7 +24,7 @@
       <td>
         <p>
         <a href="/book/edit/${libro.id}" class="btn btn-info">Editar</a>
-        <a href="book/remove/${libro.id}" class="btn btn-info">Borrar</a>
+        <a href="book/remove/${libro.id}" class="btn btn-danger">Borrar</a>
       </p> 
       </td> 
     </tr>
