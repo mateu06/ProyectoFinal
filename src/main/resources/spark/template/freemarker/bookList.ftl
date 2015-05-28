@@ -6,10 +6,10 @@
   <tr>
     <thead>
                       
-      <th>TÍTULO</th> 
-      <th>AUTOR</th>
-      <th>PRECIO</th>
-      <th>ACCIÓN</th>
+      <th>TÍTULO <i class="fa fa-book"></i></th> 
+      <th>AUTOR <i class="fa fa-user"></i></th>
+      <th>PRECIO <i class="fa fa-euro"></i></th>
+      <th>ACCIÓN <i class="fa fa-gears"></i></th>
                       
     </thead>
 
@@ -23,8 +23,8 @@
 
       <td>
         <p>
-        <a href="/book/edit/${libro.id}" class="btn btn-info">Editar</a>
-        <a href="book/remove/${libro.id}" class="btn btn-danger">Borrar</a>
+        <a href="/book/edit/${libro.id}" class="btn btn-info boton1"><i class="fa fa-pencil"></i></a>
+        <a href="book/remove/${libro.id}" class="btn btn-danger boton2"><i class="fa fa-trash-o"></i></a>
       </p> 
       </td> 
     </tr>
