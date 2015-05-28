@@ -128,17 +128,57 @@ public class App {
                     }
                 });
         
-       
+        get (new FreeMarkerRoute ("/book/edit/:id"){
+            @Override
+            
+            public ModelAndView handle (Request request, Response response)
+            {
+                ObjectId id = new ObjectId(request.params(":id"));
+                
+                //find document 
+                
+                Bson filtro = eq("_id",id);
+                Document doc = coleccion.find(filtro).first();
+                
+                Book libro = new Book(
+                                (ObjectId)doc.get( "_id"),
+                                doc.getString("titulo"),
+                                doc.getString("autor"),
+                                doc.getString("precio"));
+                
+                
+                Map<String, Object> data = new HashMap<>();
+                data.put("libro", libro);
+                
+                return modelAndView(data, "bookEdit.ftl");
+            }
+            
+        });
+        
+        post (new Route ("/book/edit/:id"){
+            @Override
+            
+            public Object handle (Request request, Response response)
+            {
+                ObjectId id = new ObjectId(request.params(":id"));
+                
+                Book bk = new Book();
+                bk.setTitulo(request.queryParams("titulo"));
+                bk.setAutor(request.queryParams("autor"));
+                bk.setPrecio(request.queryParams("precio"));
+                
+                coleccion.updateOne(eq("_id",id), new Document("$set", new Document()
+                .append("titulo", bk.getTitulo())
+                .append("autor", bk.getAutor())
+                .append("precio", bk.getPrecio())) );
+                
+                response.redirect("/");
+                return null;
+            }
+            
+        });
 
     }
 
 
 }
-/*
-Book bk = new Book();
-                        
-                        Bson filtro = new Document("id",bk.getId()); 
-                        
-                        coleccion.deleteOne(filtro);
-                        response.redirect("/");
-*/
