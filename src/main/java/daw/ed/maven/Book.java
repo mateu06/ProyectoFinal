@@ -2,10 +2,12 @@
 package daw.ed.maven;
 
 import com.mongodb.DBObject;
+import org.bson.types.ObjectId;
 
 
 public class Book 
 {
+    private ObjectId id;
     private String titulo;
     private String autor;
     private String precio;
@@ -14,6 +16,14 @@ public class Book
     {
         
     }
+    public Book (ObjectId id,String titulo, String autor, String precio)
+    {
+        this.id = id;
+        this.titulo = titulo;
+        this.autor = autor;
+        this.precio = precio;
+    }
+    
     
     public Book (String titulo, String autor, String precio)
     {
@@ -60,8 +70,19 @@ public class Book
         this.precio = precio;
     }
 
-    DBObject[] toDBObjectBook() {
-        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+
+    /**
+     * @return the id
+     */
+    public Object getId() {
+        return id;
+    }
+
+    /**
+     * @param id the id to set
+     */
+    public void setId(ObjectId id) {
+        this.id = id;
     }
 }
 

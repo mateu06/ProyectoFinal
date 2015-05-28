@@ -20,10 +20,11 @@
       <td>${libro.titulo}</td>
       <td>${libro.autor}</td>
       <td>${libro.precio}</td>
+
       <td>
         <p>
-        <button type="button" class="btn btn-info">Editar</button>
-        <button type="button" class="btn btn-danger">Borrar</button>
+        <a href="/book/edit/${libro.id}" class="btn btn-info">Editar</a>
+        <a href="book/remove/${libro.id}" class="btn btn-info">Borrar</a>
       </p> 
       </td> 
     </tr>

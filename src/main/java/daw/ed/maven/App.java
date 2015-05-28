@@ -7,6 +7,7 @@ import com.mongodb.DBCursor;
 import com.mongodb.DBObject;
 import com.mongodb.MongoClient;
 import com.mongodb.client.MongoCollection;
+import com.mongodb.client.MongoCursor;
 import com.mongodb.client.MongoDatabase;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -25,6 +26,10 @@ import org.bson.Document;
 import org.bson.conversions.Bson;
 import spark.Route;
 import static spark.Spark.post;
+import org.bson.types.ObjectId;
+import static com.mongodb.client.model.Filters.*;
+
+
 
 /**
  * Hello world!
@@ -33,18 +38,11 @@ import static spark.Spark.post;
 public class App {
 
     public static void main(String[] args) {
-        //Conexión con la base de datos libreria y con la colección libros
 
         MongoClient cliente = new MongoClient();
+        MongoDatabase baseDeDatos = cliente.getDatabase("libreria");
+        final MongoCollection<Document> coleccion = baseDeDatos.getCollection("libros");
 
-        //Recuperamos la base de datos libreria
-        DB baseDeDatos = cliente.getDB("libreria");
-
-        //Recuperamos los valores de la colección previamente introducidos:
-        final DBCollection coleccion = baseDeDatos.getCollection("libros");
-
-        MongoDatabase database = cliente.getDatabase("libreria");
-        final MongoCollection<Document> coleccion2 = database.getCollection("libros");
 
         final ArrayList<Book> booksAL = new ArrayList<>();
 
@@ -55,19 +53,28 @@ public class App {
             @Override
             public ModelAndView handle(Request request, Response response) {
 
-                //DBCursor();
-                DBCursor cursor = coleccion.find();
+                //DBCursorListar();
+                booksAL.clear();
+                MongoCursor<Document> cursor = coleccion.find().iterator();
                 try {
                     while (cursor.hasNext()) {
 
-                        BasicDBObject obj = (BasicDBObject) cursor.next();
-                        booksAL.add(new Book(obj.getString("titulo"), obj.getString("autor"), obj.getString("precio")));
+                        Document obj = cursor.next();
+                        booksAL.add(new Book(
+                                (ObjectId)obj.get( "_id"),
+                                obj.getString("titulo"),
+                                obj.getString("autor"),
+                                obj.getString("precio")
+                        ));
                         System.out.println(obj.getString("titulo"));
                     }
                 } finally {
                     cursor.close();
                 }
-
+                
+                
+                
+                
                 Map<String, Object> data = new HashMap<>();
                 data.put("booksAL", booksAL);
                 return modelAndView(data, "bookList.ftl");
@@ -95,15 +102,43 @@ public class App {
                 doc.append("autor", bk.getAutor());
                 doc.append("precio", bk.getPrecio());
 
-                coleccion2.insertOne(doc);
+                coleccion.insertOne(doc);
+                
+                ObjectId id = (ObjectId)doc.get( "_id" );
+                
+                bk.setId(id);
 
                 response.redirect("/");
                 return null;
             }
 
         });
+        
+        get (new Route ("/book/remove/:id"){
+                @Override
+                
+                    public Object handle (Request request, Response response)
+                    {                                             
+                        ObjectId id = new ObjectId (request.params(":id"));
+                        
+                        coleccion.deleteOne(eq("_id",id));
+
+                        response.redirect("/");
+                        return null;
+                    }
+                });
+        
+       
 
     }
 
 
 }
+/*
+Book bk = new Book();
+                        
+                        Bson filtro = new Document("id",bk.getId()); 
+                        
+                        coleccion.deleteOne(filtro);
+                        response.redirect("/");
+*/
